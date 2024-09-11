@@ -26,12 +26,13 @@ public class AuthorController {
     }
 
     @GetMapping("/getAuthorById")
-    public Author getAuthorById(@RequestParam("id") int id){
+    public AuthorResponseDto getAuthorById(@RequestParam("id") int id){
+
         return authorService.getAuthorById(id);
     }
 
     @GetMapping("/getAuthorByEmail")
-    public Author getAuthorById(@RequestParam("email") String email){
+    public AuthorResponseDto getAuthorById(@RequestParam("email") String email){
         return authorService.getAuthorByEmail(email);
     }
 

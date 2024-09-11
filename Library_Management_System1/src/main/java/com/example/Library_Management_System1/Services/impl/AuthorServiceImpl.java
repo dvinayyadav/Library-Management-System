@@ -1,5 +1,7 @@
 package com.example.Library_Management_System1.Services.impl;
 
+import com.example.Library_Management_System1.Converters.AuthorConverters;
+import com.example.Library_Management_System1.Converters.BookConverters;
 import com.example.Library_Management_System1.DTO.RequestDTO.RequestAuthorDto;
 import com.example.Library_Management_System1.DTO.ResposeDTO.AuthorResponseDto;
 import com.example.Library_Management_System1.DTO.ResposeDTO.BookResponseDto;
@@ -21,11 +23,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public String addAuthor(RequestAuthorDto requestAuthorDto) {
 
-        Author author=new Author();
-        author.setName(requestAuthorDto.getName());
-        author.setEmail(requestAuthorDto.getEmail());
-        author.setAge(requestAuthorDto.getAge());
-        author.setQualification(requestAuthorDto.getQualification());
+        Author author= AuthorConverters.RequestAuthorDtoToAuthor(requestAuthorDto);
         authorRepository.save(author);
         return "Author ADDED SECCUSSFULLY ADDED";
     }
@@ -35,23 +33,28 @@ public class AuthorServiceImpl implements AuthorService {
         List<Author> list=authorRepository.findAll();
         List<AuthorResponseDto> list1=new ArrayList<>();
         for(Author author:list){
-            AuthorResponseDto authorResponseDto=new AuthorResponseDto();
-            authorResponseDto.setName(author.getName());
-            authorResponseDto.setEmail(author.getEmail());
-            authorResponseDto.setList(author.getList());
-            list1.add(authorResponseDto);
+
+            list1.add(AuthorConverters.authorToAuthorResponseDto(author));
         }
         return list1;
     }
 
     @Override
-    public Author getAuthorById(int id) {
-        return authorRepository.findById(id).get();
+    public AuthorResponseDto getAuthorById(int id) {
+        Author author=authorRepository.findById(id).get();
+        List<BookResponseDto> bookResponseDtoList=new ArrayList<>();
+        for(Book book:author.getList()){
+            bookResponseDtoList.add(BookConverters.bookToBookResponseDto(book));
+        }
+        AuthorResponseDto authorResponseDto=AuthorConverters.authorToAuthorResponseDto(author);
+        authorResponseDto.setList(bookResponseDtoList);
+        return authorResponseDto;
     }
 
     @Override
-    public Author getAuthorByEmail(String email) {
-        return authorRepository.findByEmail(email);
+    public AuthorResponseDto getAuthorByEmail(String email) {
+        Author author=authorRepository.findByEmail(email);
+        return AuthorConverters.authorToAuthorResponseDto(author);
     }
 
     public Author getAuthorByName(String name) {
@@ -63,11 +66,7 @@ public class AuthorServiceImpl implements AuthorService {
       List<Book> list=author.getList();
       List<BookResponseDto> list1=new ArrayList<>();
       for(Book book:list){
-          BookResponseDto bookResponseDto=new BookResponseDto();
-          bookResponseDto.setTitle(book.getTitle());
-          bookResponseDto.setAuthor(book.getAuthor());
-          bookResponseDto.setGenre(book.getGenre());
-          list1.add(bookResponseDto);
+          list1.add(BookConverters.bookToBookResponseDto(book));
       }
       return list1;
     }

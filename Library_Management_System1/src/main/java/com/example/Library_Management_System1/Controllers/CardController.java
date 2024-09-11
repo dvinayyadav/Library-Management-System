@@ -1,5 +1,6 @@
 package com.example.Library_Management_System1.Controllers;
 
+import com.example.Library_Management_System1.DTO.ResposeDTO.CardResponseDto;
 import com.example.Library_Management_System1.Entities.Card;
 import com.example.Library_Management_System1.Services.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class CardController {
     @Autowired
     CardService cardService;
     @GetMapping("/getAll")
-    public List<Card> getAll(){
+    public List<CardResponseDto> getAll(){
         return cardService.getAll();
 
     }

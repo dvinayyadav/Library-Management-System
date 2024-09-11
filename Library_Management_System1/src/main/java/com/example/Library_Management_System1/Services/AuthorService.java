@@ -15,9 +15,9 @@ public interface AuthorService {
 
     List<AuthorResponseDto> getAllAuthors();
 
-    Author getAuthorById(int id);
+ AuthorResponseDto getAuthorById(int id);
 
-    Author getAuthorByEmail(String email);
+ AuthorResponseDto getAuthorByEmail(String email);
 
     List<BookResponseDto> getAllBooksByAuthor(String name);
 

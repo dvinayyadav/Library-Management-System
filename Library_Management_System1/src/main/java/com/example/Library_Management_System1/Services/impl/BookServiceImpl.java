@@ -1,5 +1,6 @@
 package com.example.Library_Management_System1.Services.impl;
 
+import com.example.Library_Management_System1.Converters.BookConverters;
 import com.example.Library_Management_System1.DTO.RequestDTO.BookRequestDto;
 import com.example.Library_Management_System1.DTO.ResposeDTO.BookResponseDto;
 import com.example.Library_Management_System1.Entities.Author;
@@ -22,23 +23,22 @@ public class BookServiceImpl implements BookService {
     AuthorRepository authorRepository;
     @Override
     public String addBook(BookRequestDto bookRequestDto) throws Exception {
-
+        Author author;
         try{
-            int   authorId= bookRequestDto.getAuthor().getId();
-            Author author= authorRepository.findById(authorId).get();
-            Book book=new Book();
-            book.setGenre(bookRequestDto.getGenre());
-            book.setTitle(bookRequestDto.getTitle());
-            book.setPrice(bookRequestDto.getPrice());
-            author.getList().add(book);
-            book.setAuthor(author);
-            authorRepository.save(author);
 
-            return "Book added Via Author Body";
+            author= authorRepository.findById(bookRequestDto.getAuthorId()).get();
+
         }
         catch(Exception e){
             throw new Exception("Author not available in the DataBase");
         }
+        Book book= BookConverters.bookRequestDtoToBook(bookRequestDto);
+        book.setIssued(false);
+        book.setAuthor(author);
+        author.getList().add(book);
+        authorRepository.save(author);
+
+        return "Book added Via Author Body";
 
 
     }
@@ -48,11 +48,7 @@ public class BookServiceImpl implements BookService {
         List<Book> list= bookRepository.findAll();
         List<BookResponseDto> ansList=new ArrayList<>();
         for(Book book:list){
-            BookResponseDto bookResponseDto=new BookResponseDto();
-            bookResponseDto.setAuthor(book.getAuthor());
-            bookResponseDto.setGenre(book.getGenre());
-            bookResponseDto.setTitle(book.getTitle());
-            ansList.add(bookResponseDto);
+            ansList.add(BookConverters.bookToBookResponseDto(book));
         }
         return ansList;
     }

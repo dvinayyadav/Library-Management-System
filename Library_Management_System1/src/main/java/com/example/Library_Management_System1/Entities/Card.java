@@ -4,10 +4,7 @@ import com.example.Library_Management_System1.Enum.CardStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,10 +12,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
 @Entity
 public class Card {
 
@@ -36,15 +33,12 @@ public class Card {
 
     @OneToOne
     @JoinColumn
-    @JsonBackReference
     private Student student;
 
     @OneToMany(mappedBy = "card",cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<Transaction> transactionList=new ArrayList<>();
 
     @OneToMany(mappedBy = "card",cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<Book> bookList=new ArrayList<>();
 
 }

@@ -4,18 +4,14 @@ package com.example.Library_Management_System1.Entities;
 import com.example.Library_Management_System1.Enum.Department;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-@Getter
-@Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
 @Entity
-@Table(name="student")
 public class Student {
 
     @Id
@@ -32,6 +28,5 @@ public class Student {
     private String mobileNo;
 
     @OneToOne(mappedBy = "student",cascade = CascadeType.ALL)
-    @JsonManagedReference
    private Card card;
 }

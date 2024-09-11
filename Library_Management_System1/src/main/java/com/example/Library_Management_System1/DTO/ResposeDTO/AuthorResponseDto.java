@@ -4,10 +4,7 @@ import com.example.Library_Management_System1.Entities.Book;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
+@Builder
 public class AuthorResponseDto {
 
     private String name;
@@ -24,5 +22,5 @@ public class AuthorResponseDto {
     private String email;
 
 
-    private List<Book> list=new ArrayList<>();
+    private List<BookResponseDto> list=new ArrayList<>();
 }

@@ -3,18 +3,15 @@ package com.example.Library_Management_System1.Entities;
 import com.example.Library_Management_System1.Enum.TransactionStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
+@Builder
 @Entity
 public class Transaction {
 
@@ -35,12 +32,10 @@ public class Transaction {
 
     @JoinColumn
     @ManyToOne
-    @JsonBackReference
     private Card card;
 
     @JoinColumn
     @ManyToOne
-    @JsonBackReference
     private Book book;
 
 }
